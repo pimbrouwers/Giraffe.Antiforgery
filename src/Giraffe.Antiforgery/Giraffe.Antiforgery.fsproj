@@ -1,20 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+    <AssemblyName>Giraffe.Antiforgery</AssemblyName>
+    <Version>1.0.0</Version>
 
+    <!-- General info -->
+    <Description>Microsoft.AspNetCore.Antiforgery support for the Giraffe web framework.</Description>
+    <Copyright>Copyright 2020 Pim Brouwers</Copyright>
+    <Authors>Pim Brouwers</Authors>
+    <NeutralLanguage>en-CA</NeutralLanguage>
+
+    <!-- Build config -->
+    <DebugType>portable</DebugType>
+    <OutputType>Library</OutputType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <!-- NuGet config -->
+    <PackageId>Giraffe.Antiforgery</PackageId>
+    <PackageTags>Giraffe;Antiforgery;ASP.NET Core;Lambda;FSharp;Functional;Http;Web;Framework;Micro;Service;Antiforgery;CSRF</PackageTags>    
+    <PackageIcon>giraffe-64x64.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/pimbrouwers/Giraffe.Antiforgery</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/pimbrouwers/Giraffe.Antiforgery</RepositoryUrl>
+
+    <!-- SourceLink settings -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+  
   <ItemGroup>
+    <None Include="giraffe-64x64.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Include="Html.fs" />
     <Compile Include="HttpHandlers.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Giraffe" Version="4.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
+    <PackageReference Include="Giraffe" Version="4.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.*" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.7.1" />
-  </ItemGroup>
-
+  
 </Project>
