@@ -21,8 +21,10 @@ let csrfHtmlView (view : AntiforgeryTokenSet -> XmlNode) : HttpHandler =
     csrfTokenizer handler  
 
 // Checks the presence and validity of CSRF token and calls invalidTokenHandler on failure
+// GET, HEAD, OPTIONS & TRACE always validate as true
 let requiresCsrfToken (invalidTokenHandler : HttpHandler) : HttpHandler =
     fun (next: HttpFunc) (ctx : HttpContext) ->                                
-        let antiFrg = ctx.GetService<IAntiforgery>()
-        let valid = antiFrg.IsRequestValidAsync(ctx) |> Async.AwaitTask |> Async.RunSynchronously
-        (if valid then next else invalidTokenHandler earlyReturn) ctx
+        let antiFrg = ctx.GetService<IAntiforgery>()        
+        (match antiFrg.IsRequestValidAsync(ctx) |> Async.AwaitTask |> Async.RunSynchronously with
+        | true  -> next        
+        | false -> invalidTokenHandler earlyReturn) ctx
