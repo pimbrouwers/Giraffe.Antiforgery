@@ -6,6 +6,7 @@ Provides support for CSRF token generation and validation using the [Microsoft.A
 
 ## Getting Started
 
+> Ensure that you've added Antiforgery services to the IoC Container via `services.AddAntiforgery()`.
 
 ```f#
 open Giraffe.Antiforgery
