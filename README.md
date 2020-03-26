@@ -44,7 +44,7 @@ let webApp =
     ]
 
 // rest of code
-##
+```
 
 ## Handlers
 
