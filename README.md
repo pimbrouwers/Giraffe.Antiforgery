@@ -2,6 +2,58 @@
 
 Provides support for CSRF token generation and validation using the [Microsoft.AspNetCore.Antiforgery](https://www.nuget.org/packages/Microsoft.AspNetCore.Antiforgery/) package.
 
+## Getting Started
+
+
+```f#
+open Giraffe.Antiforgery
+open Giraffe.GiraffeViewEngine.Antiforgery
+
+// rest of code
+
+let formView (token : AntiforgeryTokenSet) = 
+    html [] [
+        body [] [
+                form [ _method "post" ] [
+                        antiforgeryInput token
+                        input [ _type "submit"; _value "Submit" ]
+                    ]                                
+            ]
+    ]
+let csrfHandler (token : AntiforgeryTokenSet) : HttpHandler = 
+    fun (next: HttpFunc) (ctx : HttpContext) ->                                
+        htmlView 
+            (html [] [
+                body [] [
+                        form [ _method "post" ] [
+                                antiforgeryInput token
+                                input [ _type "submit"; _value "Submit" ]
+                            ]                                
+                    ]
+            ])
+            next ctx
+
+let webApp =
+    choose [
+        GET >=> choose [
+                // using htmlView helper
+                route "/token" >=> choose [ 
+                        GET  >=> csrfHtmlView formView
+                        POST >=> requiresCsrfToken (text "intruder!") >=> text "oh hi there ;)" 
+                    ]
+                // manual token handler
+                route "/token" >=> choose [ 
+                    GET  >=> csrfTokenizer csrfHandler
+                    POST >=> requiresCsrfToken (text "intruder!") >=> text "oh hi there ;)" 
+                ]
+                route "/" >=> text "hello" 
+            ]
+        RequestErrors.NOT_FOUND "Not Found"
+    ]
+
+// rest of code
+##
+
 ## Handlers
 
 ### `csrfTokenizer`
