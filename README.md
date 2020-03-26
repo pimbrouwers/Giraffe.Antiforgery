@@ -20,18 +20,10 @@ let formView (token : AntiforgeryTokenSet) =
                     ]                                
             ]
     ]
+	
 let csrfHandler (token : AntiforgeryTokenSet) : HttpHandler = 
     fun (next: HttpFunc) (ctx : HttpContext) ->                                
-        htmlView 
-            (html [] [
-                body [] [
-                        form [ _method "post" ] [
-                                antiforgeryInput token
-                                input [ _type "submit"; _value "Submit" ]
-                            ]                                
-                    ]
-            ])
-            next ctx
+        htmlView (formView token) next ctx
 
 let webApp =
     choose [
