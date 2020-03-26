@@ -1,5 +1,6 @@
 # Giraffe.Antiforgery
-![NuGet Version](https://img.shields.io/nuget/v/Giraffe.Antiforgery.svg)
+
+[![NuGet Info](https://buildstats.info/nuget/Giraffe.Antiforgery?includePreReleases=true)](https://www.nuget.org/packages/Giraffe.Antiforgery/)
 
 Provides support for CSRF token generation and validation using the [Microsoft.AspNetCore.Antiforgery](https://www.nuget.org/packages/Microsoft.AspNetCore.Antiforgery/) package.
 
