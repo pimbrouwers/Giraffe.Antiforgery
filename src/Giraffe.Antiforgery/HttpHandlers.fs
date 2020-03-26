@@ -13,10 +13,12 @@ let csrfTokenizer (handler : AntiforgeryTokenSet -> HttpHandler) : HttpHandler =
         (antiFrg.GetAndStoreTokens ctx |> handler) next ctx
 
 // Injects a newly generated CSRF token into a Giraffe.GiraffeViewEngine.XmlNode
-let csrfHtmlView (view : AntiforgeryTokenSet -> XmlNode) : HttpHandler =
-    fun (next: HttpFunc) (ctx : HttpContext) ->                
-        let antiFrg = ctx.GetService<IAntiforgery>()                
-        htmlView (antiFrg.GetAndStoreTokens(ctx) |> view) next ctx
+let csrfHtmlView (view : AntiforgeryTokenSet -> XmlNode) : HttpHandler =            
+    let handler token : HttpHandler =
+        fun (next: HttpFunc) (ctx : HttpContext) ->              
+            htmlView (view token) next ctx
+
+    csrfTokenizer handler  
 
 // Checks the presence and validity of CSRF token and calls invalidTokenHandler on failure
 let requiresCsrfToken (invalidTokenHandler : HttpHandler) : HttpHandler =
